@@ -404,3 +404,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignorar arquivos de configuração sensíveis do appsettings
+appsettings.*.json
+!appsettings.json

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PixBox.API.Dtos;
 using PixBox.API.Services;
+using System.Threading.Tasks;
 
 namespace PixBox.API.Controllers
 {
@@ -16,15 +17,33 @@ namespace PixBox.API.Controllers
             _service = service;
         }
 
-        [HttpPost("registrar")]
-        public IActionResult Registrar([FromBody] UsuarioInputDto usuario)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginInputDto loginDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                var usuarioCriado = _service.RegistrarUsuario(usuario);
+                var resultadoLogin = await _service.LoginAsync(loginDto.Telefone, loginDto.Senha);
+
+                return Ok(resultadoLogin);
+            }
+            catch (ArgumentException ex)
+            {
+                return Unauthorized(new { status = "fail", error = ex.Message });
+            }
+        }
+
+        [HttpPost("registrar")]
+        public async Task<IActionResult> Registrar([FromBody] UsuarioInputDto usuario)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var usuarioCriado = await _service.RegistrarUsuarioAsync(usuario);
                 return CreatedAtAction(nameof(ObterPorId), new { id = usuarioCriado.Id }, usuarioCriado);
             }
             catch (ArgumentException ex)
@@ -40,23 +59,12 @@ namespace PixBox.API.Controllers
         [HttpGet("{id}")]
         public IActionResult ObterPorId(string id)
         {
-            var usuario = _service.ObterPorId(id);
+            var usuario = _service.ObterPorIdAsync(id);
 
             if (usuario == null)
                 return NotFound();
 
-            var dto = new UsuarioDto
-            {
-                Id = usuario.Id,
-                Nome = usuario.Nome,
-                Telefone = usuario.Telefone,
-                Cpf = usuario.Cpf,
-                DataNascimento = usuario.DataNascimento,
-                Endereco = usuario.Endereco,
-                CriadoEm = usuario.CriadoEm
-            };
-
-            return Ok(dto);
+            return Ok(usuario);
         }
     }
 }

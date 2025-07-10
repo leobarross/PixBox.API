@@ -1,50 +1,67 @@
 ﻿using PixBox.API.Dtos;
 using PixBox.Dados.Entidades;
-using PixBox.Dados.Repositories;
+using PixBox.Dados.Repositories.Interfaces;
 
 namespace PixBox.API.Services
 {
-    public class UsuarioService : IUsuarioRepository
+    public class UsuarioService
     {
-        //private readonly IUsuarioRepository _usuario;
+        private readonly IUsuarioRepository _usuario;
+        private readonly TokenService _tokenService;
 
-        private readonly List<Usuario> _usuarios = new();
 
-        public void Adicionar(Usuario usuario)
+        public UsuarioService(IUsuarioRepository usuario, TokenService tokenService)
         {
-            _usuarios.Add(usuario);
+            _usuario = usuario;
+            _tokenService = tokenService;
         }
 
-        public bool CpfExiste(string cpf)
+        public async Task<UsuarioOutputDto> RegistrarUsuarioAsync(UsuarioInputDto dto)
         {
-            return _usuarios.Any(u => u.Cpf == cpf);
-        }
+            if (await _usuario.ExisteCpfAsync(dto.Cpf))
+                throw new ArgumentException("CPF já cadastrado.");
 
-        public bool TelefoneExiste(string telefone)
-        {
-            return _usuarios.Any(u => u.Telefone == telefone);
-        }
+            if (await _usuario.ExisteTelefoneAsync(dto.Telefone))
+                throw new ArgumentException("Telefone já cadastrado.");
 
-        public UsuarioDto RegistrarUsuario(UsuarioInputDto dto)
-        {
-            var usuario = new Usuario
+            if (dto.DataNascimento > DateTime.Today.AddYears(-18))
+                throw new ArgumentException("Usuário deve ter no mínimo 18 anos.");
+
+
+            var usuario = new Usuario(
+                dto.Nome, 
+                dto.Cpf, 
+                dto.DataNascimento, 
+                dto.Telefone,
+                dto.Endereco,
+                dto.Bairro,
+                dto.Cidade,
+                dto.UF,
+                BCrypt.Net.BCrypt.HashPassword(dto.Senha)
+            );
+
+            await _usuario.AdicionarAsync(usuario);
+
+            return new UsuarioOutputDto
             {
-                Id = Guid.NewGuid().ToString(),
-                Nome = dto.Nome,
-                Cpf = dto.Cpf,
-                Endereco = dto.Endereco,
-                Bairro = dto.Bairro,
-                Cidade = dto.Cidade,
-                UF = dto.UF,
-                Telefone = dto.Telefone,
-                DataNascimento = dto.DataNascimento,
-                SenhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha),
-                CriadoEm = DateTime.UtcNow
+                Id = usuario.Id,
+                Nome = usuario.Nome,
+                Cpf = usuario.Cpf,
+                Endereco = usuario.Endereco,
+                Bairro = usuario.Bairro,
+                Cidade = usuario.Cidade,
+                UF = usuario.UF,
+                Telefone = usuario.Telefone,
+                DataNascimento = usuario.DataNascimento,
+                CriadoEm = usuario.CriadoEm
             };
+        }
+        public async Task<UsuarioOutputDto> ObterPorIdAsync(string id)
+        {
+            var usuario = await _usuario.ObterPorIdAsync(id);
+            if (usuario == null) return null;
 
-            Adicionar(usuario);
-
-            return new UsuarioDto
+            return new UsuarioOutputDto
             {
                 Id = usuario.Id,
                 Nome = usuario.Nome,
@@ -59,9 +76,30 @@ namespace PixBox.API.Services
             };
         }
 
-        public Usuario ObterPorId(string id)
+        public async Task<LoginOutPutDto> LoginAsync(string telefone, string senha)
         {
-            return _usuarios.FirstOrDefault(u => u.Id == id);
+            var usuario = await _usuario.ObterPorTelefoneAsync(telefone);
+
+            if (usuario == null)
+                throw new ArgumentException("Telefone não cadastrado.");
+
+            bool senhaValida = BCrypt.Net.BCrypt.Verify(senha, usuario.SenhaHash);
+            if (!senhaValida)
+                throw new ArgumentException("Senha inválida.");
+
+            var token = _tokenService.GerarToken(usuario.Id);
+
+            return new LoginOutPutDto
+            {
+                Status = "success",
+                Token = token,
+                User = new
+                {
+                    Id = usuario.Id,
+                    Login = usuario.Telefone
+                },
+                SessionExpiration = DateTime.UtcNow.AddHours(1)
+            };
         }
     }
 }

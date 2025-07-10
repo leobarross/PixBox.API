@@ -1,6 +1,6 @@
 ﻿namespace PixBox.API.Dtos
 {
-    public class UsuarioDto
+    public class UsuarioOutputDto
     {
         public string Id { get; set; }
         public string Cpf { get; set; }
