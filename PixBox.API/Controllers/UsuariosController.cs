@@ -57,9 +57,9 @@ namespace PixBox.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult ObterPorId(string id)
+        public async Task<IActionResult> ObterPorId(string id)
         {
-            var usuario = _service.ObterPorIdAsync(id);
+            var usuario = await _service.ObterPorIdAsync(id);
 
             if (usuario == null)
                 return NotFound();
