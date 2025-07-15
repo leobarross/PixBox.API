@@ -20,7 +20,7 @@ namespace PixBox.API.Dtos
         public string Senha { get; set; }
 
         [Required(ErrorMessage = "Data de nascimento é obrigatória.")]
-        public DateTime DataNascimento { get; set; }
+        public DateOnly DataNascimento { get; set; }
 
         [Required(ErrorMessage = "Endereço é obrigatório.")]
         public string Endereco { get; set; }

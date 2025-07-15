@@ -12,8 +12,8 @@ using PixBox.Dados.Data;
 namespace PixBox.Dados.Migrations
 {
     [DbContext(typeof(PixBoxDbContext))]
-    [Migration("20250709234756_AlterarDataNascimentoParaDate")]
-    partial class AlterarDataNascimentoParaDate
+    [Migration("20250715011453_usuariosInicial")]
+    partial class usuariosInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,8 +49,8 @@ namespace PixBox.Dados.Migrations
                     b.Property<DateTime>("CriadoEm")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DataNascimento")
+                        .HasColumnType("date");
 
                     b.Property<string>("Endereco")
                         .IsRequired()

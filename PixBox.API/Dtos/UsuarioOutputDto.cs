@@ -10,7 +10,7 @@
         public string Cidade { get; set; }
         public string UF { get; set; }
         public string Telefone { get; set; }
-        public DateTime DataNascimento { get; set; }
+        public DateOnly DataNascimento { get; set; }
         public DateTime CriadoEm { get; set; }
     }
 }

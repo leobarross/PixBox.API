@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<PixBoxDbContext>(options =>
- options.UseSqlServer(builder.Configuration.GetConnectionString("PixBoxDb")));
+ options.UseSqlServer(builder.Configuration.GetConnectionString("PixBoxLocalDb")));
 
 builder.Services.AddControllers();
 

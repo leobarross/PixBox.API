@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PixBox.Dados.Migrations
 {
     /// <inheritdoc />
-    public partial class inicial : Migration
+    public partial class usuariosInicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace PixBox.Dados.Migrations
                     Id = table.Column<string>(type: "nvarchar(37)", maxLength: 37, nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Cpf = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "date", nullable: false),
+                    DataNascimento = table.Column<DateOnly>(type: "date", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Endereco = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Bairro = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),

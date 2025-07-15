@@ -24,7 +24,10 @@ namespace PixBox.API.Services
             if (await _usuario.ExisteTelefoneAsync(dto.Telefone))
                 throw new ArgumentException("Telefone já cadastrado.");
 
-            if (dto.DataNascimento > DateTime.Today.AddYears(-18))
+            var hoje = DateOnly.FromDateTime(DateTime.Today);       
+            var limite = hoje.AddYears(-18);                         
+
+            if (dto.DataNascimento > limite)                        
                 throw new ArgumentException("Usuário deve ter no mínimo 18 anos.");
 
 

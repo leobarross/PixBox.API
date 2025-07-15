@@ -9,7 +9,7 @@ namespace PixBox.Dados.Entidades
 {
     public class Usuario
     {
-        public Usuario( string nome, string cpf, DateTime dataNascimento, string telefone, string endereco, string bairro, string cidade, string uf,string senhaHash)
+        public Usuario( string nome, string cpf, DateOnly dataNascimento, string telefone, string endereco, string bairro, string cidade, string uf,string senhaHash)
         {
             Id = Guid.NewGuid().ToString();
             Nome = nome;
@@ -40,7 +40,7 @@ namespace PixBox.Dados.Entidades
         public string Cpf { get;  set; }
 
         [Required]
-        public DateTime DataNascimento { get;  set; }
+        public DateOnly DataNascimento { get;  set; }
 
         [Required]
         [StringLength(20)]
