@@ -1,4 +1,5 @@
-﻿using PixBox.API.Dtos;
+﻿using PixBox.API.Dtos.Login;
+using PixBox.API.Dtos.Usuario;
 using PixBox.Dados.Entidades;
 using PixBox.Dados.Repositories.Interfaces;
 

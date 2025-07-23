@@ -1,4 +1,4 @@
-﻿namespace PixBox.API.Dtos
+﻿namespace PixBox.API.Dtos.Usuario
 {
     public class UsuarioOutputDto
     {

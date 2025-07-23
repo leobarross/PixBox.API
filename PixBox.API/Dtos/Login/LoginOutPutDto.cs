@@ -1,7 +1,7 @@
 ﻿using PixBox.Dados.Entidades;
 using System.ComponentModel.DataAnnotations;
 
-namespace PixBox.API.Dtos
+namespace PixBox.API.Dtos.Login
 {
     public class LoginOutPutDto
     {

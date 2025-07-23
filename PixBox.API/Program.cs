@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using PixBox.API.Services;
 using PixBox.Dados.Data;
@@ -13,9 +15,17 @@ builder.Services.AddDbContext<PixBoxDbContext>(options =>
 
 builder.Services.AddControllers();
 
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<ISorteioRepository, SorteioRepository>();
+
+builder.Services.AddScoped<SorteioService>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<UsuarioService>();
 
 
 

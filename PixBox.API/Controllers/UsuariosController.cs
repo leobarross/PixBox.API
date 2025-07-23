@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PixBox.API.Dtos;
+using PixBox.API.Dtos.Login;
+using PixBox.API.Dtos.Usuario;
 using PixBox.API.Services;
 using System.Threading.Tasks;
 
