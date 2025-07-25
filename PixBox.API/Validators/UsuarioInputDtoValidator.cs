@@ -25,19 +25,6 @@ namespace PixBox.API.Validators
 
             RuleFor(u => u.DataNascimento)
                 .Must(TemPeloMenos18Anos).WithMessage("Usuário deve ter no mínimo 18 anos.");
-
-            RuleFor(u => u.Endereco)
-                .NotEmpty().WithMessage("Endereço é obrigatório.");
-
-            RuleFor(u => u.Bairro)
-                .NotEmpty().WithMessage("Bairro é obrigatório.");
-
-            RuleFor(u => u.Cidade)
-                .NotEmpty().WithMessage("Cidade é obrigatória.");
-
-            RuleFor(u => u.UF)
-                .NotEmpty().WithMessage("UF é obrigatória.")
-                .Length(2).WithMessage("UF deve conter 2 caracteres.");
         }
 
         private bool TemPeloMenos18Anos(DateOnly dataNascimento)

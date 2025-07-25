@@ -10,7 +10,6 @@ namespace PixBox.API.Services
         private readonly IUsuarioRepository _usuario;
         private readonly TokenService _tokenService;
 
-
         public UsuarioService(IUsuarioRepository usuario, TokenService tokenService)
         {
             _usuario = usuario;
@@ -28,19 +27,15 @@ namespace PixBox.API.Services
             var hoje = DateOnly.FromDateTime(DateTime.Today);       
             var limite = hoje.AddYears(-18);                         
 
-            if (dto.DataNascimento > limite)                        
+            if (dto.DataNascimento > limite)
                 throw new ArgumentException("Usuário deve ter no mínimo 18 anos.");
 
 
             var usuario = new Usuario(
                 dto.Nome, 
                 dto.Cpf, 
-                dto.DataNascimento, 
+                dto.DataNascimento,
                 dto.Telefone,
-                dto.Endereco,
-                dto.Bairro,
-                dto.Cidade,
-                dto.UF,
                 BCrypt.Net.BCrypt.HashPassword(dto.Senha)
             );
 
@@ -51,10 +46,6 @@ namespace PixBox.API.Services
                 Id = usuario.Id,
                 Nome = usuario.Nome,
                 Cpf = usuario.Cpf,
-                Endereco = usuario.Endereco,
-                Bairro = usuario.Bairro,
-                Cidade = usuario.Cidade,
-                UF = usuario.UF,
                 Telefone = usuario.Telefone,
                 DataNascimento = usuario.DataNascimento,
                 CriadoEm = usuario.CriadoEm
@@ -70,10 +61,6 @@ namespace PixBox.API.Services
                 Id = usuario.Id,
                 Nome = usuario.Nome,
                 Cpf = usuario.Cpf,
-                Endereco = usuario.Endereco,
-                Bairro = usuario.Bairro,
-                Cidade = usuario.Cidade,
-                UF = usuario.UF,
                 Telefone = usuario.Telefone,
                 DataNascimento = usuario.DataNascimento,
                 CriadoEm = usuario.CriadoEm
