@@ -22,13 +22,14 @@ namespace PixBox.API.Services
             _audience = _configuration["Jwt:Audience"];
         }
 
-        public string GerarToken(string userId)
+        public string GerarToken(string userId, string role)
         {
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, userId),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+                new Claim(JwtRegisteredClaimNames.Sub, userId),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, role)
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -42,5 +43,6 @@ namespace PixBox.API.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

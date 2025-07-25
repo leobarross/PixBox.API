@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PixBox.Dados.Data;
 
@@ -11,9 +12,11 @@ using PixBox.Dados.Data;
 namespace PixBox.Dados.Migrations
 {
     [DbContext(typeof(PixBoxDbContext))]
-    partial class PixBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250725020244_AddColuna_IsAdmin")]
+    partial class AddColuna_IsAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

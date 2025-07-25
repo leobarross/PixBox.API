@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PixBox.API.Dtos.Sorteio;
 using PixBox.API.Services;
 
 namespace PixBox.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SorteiosController : ControllerBase
@@ -16,6 +17,7 @@ namespace PixBox.API.Controllers
             _service = service;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CriarSorteio([FromBody] SorteioInputDto dto)
         {
@@ -24,11 +26,10 @@ namespace PixBox.API.Controllers
 
             var sorteio = await _service.CriarSorteioAsync(dto.Titulo, dto.Descricao, dto.DataSorteio);
 
-            
-
             return CreatedAtAction(nameof(ObterPorId), new { id = sorteio.Id }, sorteio);
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> ListarSorteios()
         {

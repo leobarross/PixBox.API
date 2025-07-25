@@ -18,6 +18,7 @@ namespace PixBox.Dados.Entidades
             Telefone = telefone;
             SenhaHash = senhaHash;
             CriadoEm = DateTime.UtcNow;
+            IsAdmin = false;
         }
 
         public Usuario() { }
@@ -45,5 +46,6 @@ namespace PixBox.Dados.Entidades
         [Required]
         public string SenhaHash { get;  set; }
         public DateTime CriadoEm { get;  set; }
+        public bool IsAdmin { get; set; }
     }
 }
