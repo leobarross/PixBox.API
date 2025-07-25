@@ -21,9 +21,6 @@ namespace PixBox.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginInputDto loginDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var resultadoLogin = await _service.LoginAsync(loginDto.Telefone, loginDto.Senha);

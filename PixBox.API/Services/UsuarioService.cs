@@ -91,7 +91,9 @@ namespace PixBox.API.Services
             if (!senhaValida)
                 throw new ArgumentException("Senha inválida.");
 
-            var token = _tokenService.GerarToken(usuario.Id);
+            var role = usuario.IsAdmin ? "Admin" : "User";
+
+            var token = _tokenService.GerarToken(usuario.Id, role);
 
             return new LoginOutPutDto
             {
