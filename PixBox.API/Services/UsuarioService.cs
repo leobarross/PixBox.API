@@ -36,6 +36,7 @@ namespace PixBox.API.Services
                 dto.Cpf, 
                 dto.DataNascimento,
                 dto.Telefone,
+                dto.Email,
                 BCrypt.Net.BCrypt.HashPassword(dto.Senha)
             );
 

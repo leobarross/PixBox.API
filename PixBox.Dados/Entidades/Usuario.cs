@@ -9,13 +9,14 @@ namespace PixBox.Dados.Entidades
 {
     public class Usuario
     {
-        public Usuario( string nome, string cpf, DateOnly dataNascimento, string telefone, string senhaHash)
+        public Usuario( string nome, string cpf, DateOnly dataNascimento, string telefone, string email, string senhaHash)
         {
             Id = Guid.NewGuid().ToString();
             Nome = nome;
             Cpf = cpf;
             DataNascimento = dataNascimento;
             Telefone = telefone;
+            Email = email;
             SenhaHash = senhaHash;
             CriadoEm = DateTime.UtcNow;
             IsAdmin = false;
@@ -42,6 +43,10 @@ namespace PixBox.Dados.Entidades
         [Required]
         [StringLength(20)]
         public string Telefone { get;  set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Email { get; set; }
 
         [Required]
         public string SenhaHash { get;  set; }
