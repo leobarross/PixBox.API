@@ -16,6 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PixBoxDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PixBoxLocalDb")));
 
+// Configuração CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PoliticaCors", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") 
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Controllers e validação
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
